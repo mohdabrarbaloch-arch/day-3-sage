@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: sage
+      POSTGRES_PASSWORD: sage
+      POSTGRES_DB: sage
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sage"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg2://sage:sage@db:5432/sage
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      ENVIRONMENT: production
+    ports:
+      - "8000:8000"
+
+volumes:
+  pgdata:

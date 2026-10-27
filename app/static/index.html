@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sage — Long-context reasoning over your documents</title>
+  <meta name="description" content="Upload long documents, ask questions, and get grounded answers with citations. Sage never makes things up — it quotes your files." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <span class="brand-mark">S</span>
+        <span class="brand-name">Sage</span>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Documents</div>
+        <div id="doc-list" class="doc-list"></div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Conversations</div>
+        <div id="conv-list" class="conv-list"></div>
+      </div>
+      <div class="sidebar-foot">
+        <div id="user-chip" class="user-chip"></div>
+        <button id="logout-btn" class="btn btn-ghost" hidden>Log out</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="menu-btn" class="btn btn-ghost icon-btn" aria-label="Menu">☰</button>
+        <div class="topbar-title">
+          <h1 id="view-title">New conversation</h1>
+          <p id="view-sub" class="muted">Upload a document to begin</p>
+        </div>
+        <button id="new-chat-btn" class="btn btn-primary">+ New</button>
+      </header>
+
+      <!-- Auth view -->
+      <section id="auth-view" class="view auth-view">
+        <div class="auth-card">
+          <div class="auth-head">
+            <span class="brand-mark lg">S</span>
+            <h2>Welcome to Sage</h2>
+            <p class="muted">Long documents. Grounded answers. No hallucinations.</p>
+          </div>
+          <div id="auth-tabs" class="auth-tabs">
+            <button data-tab="login" class="auth-tab active">Log in</button>
+            <button data-tab="signup" class="auth-tab">Sign up</button>
+          </div>
+          <form id="auth-form" class="auth-form" autocomplete="off">
+            <div class="field" id="name-field" hidden>
+              <label for="full_name">Name</label>
+              <input id="full_name" type="text" placeholder="Your name" />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" type="email" placeholder="you@example.com" required />
+            </div>
+            <div class="field">
+              <label for="password">Password</label>
+              <input id="password" type="password" placeholder="8+ characters" minlength="8" required />
+            </div>
+            <button type="submit" id="auth-submit" class="btn btn-primary block">Log in</button>
+            <p id="auth-error" class="error" hidden></p>
+          </form>
+        </div>
+      </section>
+
+      <!-- Chat view -->
+      <section id="chat-view" class="view chat-view" hidden>
+        <div id="messages" class="messages"></div>
+        <div class="composer-wrap">
+          <form id="ask-form" class="composer">
+            <textarea id="question" rows="1" placeholder="Ask anything about your document…"></textarea>
+            <div class="composer-actions">
+              <div class="composer-left">
+                <button type="button" id="upload-btn" class="btn btn-ghost">📎 Upload doc</button>
+                <button type="button" id="summarize-btn" class="btn btn-ghost">✦ Summarize</button>
+              </div>
+              <button type="submit" class="btn btn-primary">Send</button>
+            </div>
+            <input type="file" id="file-input" accept=".txt,.md,.pdf" hidden />
+          </form>
+        </div>
+      </section>
+
+      <!-- Loading / empty state -->
+      <section id="empty-view" class="view empty-view" hidden>
+        <div class="empty-inner">
+          <h2>Ask your documents anything</h2>
+          <p class="muted">Sage reads long files and answers with citations to the exact sentences it used — and tells you when it can't find an answer.</p>
+          <div class="empty-actions">
+            <button id="empty-upload" class="btn btn-primary">Upload a document</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+  <script src="/app.js"></script>
+</body>
+</html>
